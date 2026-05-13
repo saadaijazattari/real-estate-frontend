@@ -1,0 +1,17 @@
+@use './responsive.scss' as r;
+
+.layout{
+  background-color: red;
+  
+  @include r.lg{
+    background-color: brown;
+  }
+
+  @include r.md{
+    background-color: green;
+  }
+
+  @include r.sm{
+    background-color: blue;
+  }
+}
