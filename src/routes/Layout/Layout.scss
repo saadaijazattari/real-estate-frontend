@@ -1,9 +1,9 @@
-@use './responsive.scss' as r;
+@use '../../responsive.scss' as r;
 
 .layout{
   // background-color: black; karne ke liye ke CSS chal rahi hai ya nahi
   max-width: 1366px;
-  height: 100vh;
+  min-height: 100vh;
   margin-left: auto;
   margin-right: auto;
   padding-left: 20px;
