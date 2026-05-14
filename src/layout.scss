@@ -1,7 +1,7 @@
 @use './responsive.scss' as r;
 
 .layout{
-  background-color: black; // Sirf check karne ke liye ke CSS chal rahi hai ya nahi
+  // background-color: black; karne ke liye ke CSS chal rahi hai ya nahi
   max-width: 1366px;
   height: 100vh;
   margin-left: auto;
@@ -11,17 +11,17 @@
 
   
   @include r.lg{
-    background-color: brown;
+    // background-color: brown;
     max-width: 1280px;
   }
   
   @include r.md{
-    background-color: green;
+    // background-color: green;
     max-width: 768px;
   }
 
   @include r.sm{
-    background-color: blue;
+    // background-color: blue;
     max-width: 640px;
   }
 }
