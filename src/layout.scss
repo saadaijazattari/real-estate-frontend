@@ -8,6 +8,9 @@
   margin-right: auto;
   padding-left: 20px;
   padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 
   
   @include r.lg{
@@ -23,5 +26,14 @@
   @include r.sm{
     // background-color: blue;
     max-width: 640px;
+  }.navbar {
+    width: 100%;             // Yeh wrapper ko poori width dega
+    display: flex;           // Ichhit alignment ke liye flexbox lagayein
+    justify-content: center; // Isse iske andar ka actual Navbar component center ho jayega
+  }
+
+  .content{
+    background-color: red;
+    flex: 1;
   }
 }
