@@ -3,7 +3,7 @@ import Navbar from './components/Navbar/Navbar'
 import HomePage from './routes/homePage/homePage'
 import ListPage from './routes/ListPage/ListPage'
 import { Link, createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Layout from './routes/Layout/Layout'
+import { Layout, RequireAuth } from './routes/Layout/Layout'
 import SinglePage from './routes/SinglePage/SinglePage'
 import ProfilePage from './routes/ProfilePage/ProfilePage'
 import Register from './routes/Register/Register'
@@ -28,10 +28,6 @@ const App = () => {
       element: <SinglePage />
     },
     {
-      path: "/profile",
-      element: <ProfilePage />
-    },
-    {
       path: "/register",
       element: <Register />
     },
@@ -40,6 +36,16 @@ const App = () => {
       element: <Login />
     }
         ]
+    },
+    {
+      path: "/",
+      element:<RequireAuth />,
+      children:[
+    {
+      path: "/profile",
+      element: <ProfilePage />
+    }
+      ]
     }
     
   ]);

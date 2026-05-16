@@ -3,14 +3,21 @@ import Chat from '../../components/Chat/Chat'
 import List from '../../components/List/List'
 import apiRequest from '../../lib/apiRequest';
 import './ProfilePage.scss'
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
+import { useEffect } from 'react';
+
 
 export default function ProfilePage() {
 
     const navigate = useNavigate();
+    const { currentUser, updateUser } = useContext(AuthContext);
+
 
     const handleLogout = async () => {
     try {
       await apiRequest.post("/auth/logout");
+      updateUser(null)
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -18,17 +25,17 @@ export default function ProfilePage() {
   };
 
     return (
-        <div className="profilePage">
-            <div className="details">
-                <div className="wrapper">
-                    <div className="title">
-                        <h1>User Information</h1>
-                        <button>Update Profile</button>
+            <div className="profilePage">
+                <div className="details">
+                    <div className="wrapper">
+                        <div className="title">
+                            <h1>User Information</h1>
+                            <button>Update Profile</button>
                     </div>
                     <div className="info">
-                        <span>Avatar: <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" /></span>
-                        <span>UserName: <b>John Doe</b></span>
-                        <span>E-mail: <b>john@gmail.com</b></span>
+                        <span>Avatar: <img src={currentUser.user.avatar || "/noavatar.jpg"} alt="" /></span>
+                        <span>UserName: <b>{currentUser.user.username}</b></span>
+                        <span>E-mail: <b>{currentUser.user.email}</b></span>
                         <button onClick={handleLogout}>Logout</button>
                     </div>
                     <div className="title">
@@ -47,6 +54,6 @@ export default function ProfilePage() {
                     <Chat/>
                 </div>
             </div>
-        </div>
-    )
+        </div>)
+    
 }
