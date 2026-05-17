@@ -8,7 +8,10 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const updateUser = (data) => {
-    setCurrentUser(data);
+    // Normalize incoming user shape so UI can read consistent fields.
+    // Some API responses return `{ user: {...} }` while others return flat `{ ... }`.
+    const normalized = data?.user ?? data;
+    setCurrentUser(normalized);
   };
 
   useEffect(() => {

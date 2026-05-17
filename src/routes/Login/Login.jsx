@@ -35,7 +35,8 @@ const { updateUser } = useContext(AuthContext);
       });
 
       if (res.data) {
-        updateUser(res.data);
+        // server returns `{ user: { ... } }` consistently now
+        updateUser(res.data.user ?? res.data);
       }
 
       // updateUser(res.data)
