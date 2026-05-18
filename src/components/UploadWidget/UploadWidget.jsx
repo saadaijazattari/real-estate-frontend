@@ -1,11 +1,10 @@
+// UploadWidget.jsx
 import { useEffect, useState } from "react";
 
 function UploadWidget({ uwConfig, setState }) {
   const [loaded, setLoaded] = useState(false);
 
-  // 1. Script ko background mein load karne ke liye
   useEffect(() => {
-    // Agar script pehle se window par hai toh directly load set karein
     if (window.cloudinary) {
       setLoaded(true);
       return;
@@ -24,31 +23,37 @@ function UploadWidget({ uwConfig, setState }) {
     }
   }, []);
 
-  // 2. Button click hote hi widget create hoga aur turant open hoga
   const handleOpenWidget = () => {
     if (loaded && window.cloudinary) {
       const myWidget = window.cloudinary.createUploadWidget(
         uwConfig,
         (error, result) => {
           if (!error && result && result.event === "success") {
-            console.log("Done! Image URL: ", result.info);
+            console.log("Upload success:", result.info.secure_url);
             
-            // Profile Update ke liye array ki jagah direct string set karein
-            setState(result.info.secure_url); 
+            // ✅ Check if multiple images allowed
+            if (uwConfig.multiple) {
+              // Multiple: array mein add karo
+              setState((prev) => {
+                const current = Array.isArray(prev) ? prev : [];
+                return [...current, result.info.secure_url];
+              });
+            } else {
+              // Single: direct URL set karo
+              setState(result.info.secure_url);
+            }
           }
         }
       );
-      
-      // Widget create hote hi usse open kar do
       myWidget.open();
     } else {
-      alert("Cloudinary script abhi load ho rahi hai, kripya 1-2 second rukiye!");
+      alert("Cloudinary script is loading, please wait a moment!");
     }
   };
 
   return (
     <button
-      type="button" // Form submit hone se rokne ke liye type="button" zaroori hai
+      type="button"
       className="cloudinary-button"
       onClick={handleOpenWidget}
       disabled={!loaded}

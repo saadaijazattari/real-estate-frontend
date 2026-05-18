@@ -40,7 +40,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="title">
                         <h1>My List</h1>
-                        <button>Create New Post</button>
+                        <button onClick={()=> navigate('/addPost')}>Create New Post</button>
                     </div>
                     <List />
                     <div className="title">

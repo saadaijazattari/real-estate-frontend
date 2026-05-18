@@ -8,11 +8,10 @@ import UploadWidget from "../../components/UploadWidget/UploadWidget";
 function ProfileUpdatePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
   const [error, setError] = useState("");
-  const [avatar, setAvatar] = useState(null); // ✅ CHANGE: [] se null karo
+  const [avatar, setAvatar] = useState(null); 
 
   const navigate = useNavigate();
   
-  // ✅ Get user ID safely
   const userId = currentUser?.user?.id || currentUser?.id;
 
   const handleSubmit = async (e) => {
@@ -21,11 +20,11 @@ function ProfileUpdatePage() {
     const { username, email, password } = Object.fromEntries(formData);
 
     try {
-      const res = await apiRequest.put(`/users/${userId}`, {  // ✅ Use userId
+      const res = await apiRequest.put(`/users/${userId}`, { 
         username,
         email,
         password: password , 
-        avatar: avatar || undefined  // ✅ CHANGE: avatar array nahi, direct value
+        avatar: avatar || undefined  
       });
       updateUser(res.data.user ?? res.data);
       navigate("/profile");
