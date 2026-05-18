@@ -1,17 +1,23 @@
 // routes/SinglePage/SinglePage.jsx
 
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Map from "../../components/Map/Map";
 import Slider from "../../components/Slider/Slider";
 import "./singlePage.scss";
+import { useContext } from "react";
+import { AuthContext } from '../../context/AuthContext';
+import apiRequest from "../../lib/apiRequest";
 
 export default function SinglePage() {
   const loaderData = useLoaderData();
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(true);
   const [postData, setPostData] = useState(null);
   const [error, setError] = useState(null);
+  const [saved, setSaved] = useState(false)
+  const {currentUser} = useContext(AuthContext)
 
   useEffect(() => {
     console.log("Loader data:", loaderData);
@@ -80,6 +86,22 @@ export default function SinglePage() {
       </div>
     );
   }
+
+  const handleSave = async () => {
+    if (!currentUser) {
+      navigate("/login");
+    }
+    // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
+    setSaved((prev) => !prev);
+    try {
+       const res =await apiRequest.post("/users/save", { postId: postData.id });
+      console.log(res, 'post response');
+      
+    } catch (err) {
+      console.log(err);
+      setSaved((prev) => !prev);
+    }
+  };
 
   return (
     <div className="singlePage">
@@ -243,9 +265,10 @@ export default function SinglePage() {
               Send a Message
             </button>
 
-            <button>
+            <button onClick={handleSave}
+            style={{backgroundColor : saved ?"#fece51" : "white"}}>
               <img src="/save.png" alt="" />
-              Save the Place
+              {saved ? "Place saved" : "Save Place"}
             </button>
           </div>
         </div>
